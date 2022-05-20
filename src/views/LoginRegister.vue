@@ -4,9 +4,24 @@
     <div class="forms-container">
       <div class="signin-signup">
         <!--  登录  -->
-        <h1>登录</h1>
+        <el-form label-width="120px" class="login-form sign-in-form">
+          <el-form-item label="邮箱" prop="email">
+            <el-input placeholder="Enter Email..." />
+          </el-form-item>
+          <el-form-item label="密码" prop="password">
+            <el-input type="password" placeholder="Enter Password..." />
+          </el-form-item>
+
+          <el-form-item>
+            <el-button type="primary" class="submit-btn">提交</el-button>
+          </el-form-item>
+
+          <!--  找回密码  -->
+          <div class="tiparea">
+            <p>忘记密码？ <a>立即找回</a></p>
+          </div>
+        </el-form>
         <!--  注册  -->
-        <h1>注册</h1>
       </div>
     </div>
     <!--  左右切换动画  -->
@@ -36,7 +51,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { ref } from "vue";
 
 export default {
@@ -378,5 +393,28 @@ export default {
     bottom: 28%;
     left: 50%;
   }
+}
+
+/* form */
+.login-form {
+  margin-top: 20px;
+  background-color: #fff;
+  padding: 20px 40px 20px 20px;
+  border-radius: 5px;
+  box-shadow: 0px 5px 10px #cccc;
+}
+
+.submit-btn {
+  width: 100%;
+}
+
+.tiparea {
+  text-align: right;
+  font-size: 12px;
+  color: #333;
+}
+
+.tiparea p a {
+  color: #409eff;
 }
 </style>
