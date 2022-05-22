@@ -4,16 +4,32 @@
     <div class="forms-container">
       <div class="signin-signup">
         <!--  登录  -->
-        <el-form label-width="120px" class="login-form sign-in-form">
+        <el-form
+          ref="loginForm"
+          :model="loginUser"
+          :rules="rules"
+          label-width="120px"
+          class="login-form sign-in-form"
+        >
           <el-form-item label="邮箱" prop="email">
-            <el-input placeholder="Enter Email..." />
+            <el-input v-model="loginUser.email" placeholder="Enter Email..." />
           </el-form-item>
           <el-form-item label="密码" prop="password">
-            <el-input type="password" placeholder="Enter Password..." />
+            <el-input
+              v-model="loginUser.password"
+              type="password"
+              placeholder="Enter Password..."
+            />
           </el-form-item>
 
           <el-form-item>
-            <el-button type="primary" class="submit-btn">提交</el-button>
+            <el-button
+              @click="handleLogin('loginForm')"
+              type="primary"
+              class="submit-btn"
+            >
+              提交
+            </el-button>
           </el-form-item>
 
           <!--  找回密码  -->
@@ -52,14 +68,57 @@
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
+import { getCurrentInstance, reactive, ref } from "vue";
 
 export default {
   name: "LoginRegister",
   setup() {
+    const { ctx } = getCurrentInstance() as any;
     const signUpMode = ref(false);
 
-    return { signUpMode };
+    const loginUser = reactive({
+      email: "",
+      password: "",
+    });
+
+    // 校验规则
+    const rules = reactive({
+      email: [
+        {
+          type: "email",
+          required: true,
+          message: "Email is incorrect...",
+          trigger: "blur",
+        },
+      ],
+      password: [
+        {
+          required: true,
+          message: "Password could not be empty...",
+          trigger: "blur",
+        },
+        {
+          min: 6,
+          max: 30,
+          message: "Password's length has to be 6 to 30 characters...",
+          trigger: "blur",
+        },
+      ],
+    });
+
+    // 触发登录方法
+    const handleLogin = (formName: string) => {
+      ctx.$refs[formName].validate((valid: boolean) => {
+        if (valid) {
+          console.log("submit!");
+        } else {
+          console.log("error submit!");
+          return false;
+        }
+      });
+    };
+
+    return { signUpMode, loginUser, rules, handleLogin };
   },
 };
 </script>
