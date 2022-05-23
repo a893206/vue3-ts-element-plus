@@ -68,43 +68,15 @@
 </template>
 
 <script lang="ts">
-import { getCurrentInstance, reactive, ref } from "vue";
+import { getCurrentInstance, ref } from "vue";
+import { loginUser, rules } from "@/utils/loginValidators";
 
 export default {
   name: "LoginRegister",
   setup() {
-    const { ctx } = getCurrentInstance() as any;
-    const signUpMode = ref(false);
-
-    const loginUser = reactive({
-      email: "",
-      password: "",
-    });
-
-    // 校验规则
-    const rules = reactive({
-      email: [
-        {
-          type: "email",
-          required: true,
-          message: "Email is incorrect...",
-          trigger: "blur",
-        },
-      ],
-      password: [
-        {
-          required: true,
-          message: "Password could not be empty...",
-          trigger: "blur",
-        },
-        {
-          min: 6,
-          max: 30,
-          message: "Password's length has to be 6 to 30 characters...",
-          trigger: "blur",
-        },
-      ],
-    });
+    // @ts-ignore
+    const { ctx } = getCurrentInstance();
+    const signUpMode = ref<boolean>(false);
 
     // 触发登录方法
     const handleLogin = (formName: string) => {
@@ -460,7 +432,7 @@ export default {
   background-color: #fff;
   padding: 20px 40px 20px 20px;
   border-radius: 5px;
-  box-shadow: 0px 5px 10px #cccc;
+  box-shadow: 0 5px 10px #cccc;
 }
 
 .submit-btn {
