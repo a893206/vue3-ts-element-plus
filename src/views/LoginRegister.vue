@@ -5,7 +5,60 @@
       <div class="signin-signup">
         <!--  登录  -->
         <login-form :loginUser="loginUser" :rules="rules"></login-form>
+
         <!--  注册  -->
+        <el-form
+          ref="registerForm"
+          :model="registerUser"
+          :rules="rules"
+          label-width="120px"
+          class="register-form sign-up-form"
+        >
+          <el-form-item label="用户名" prop="name">
+            <el-input
+              v-model="registerUser.name"
+              placeholder="Enter UserName..."
+            />
+          </el-form-item>
+          <el-form-item label="邮箱" prop="email">
+            <el-input
+              v-model="registerUser.email"
+              placeholder="Enter Email..."
+            />
+          </el-form-item>
+          <el-form-item label="密码" prop="password">
+            <el-input
+              v-model="registerUser.password"
+              type="password"
+              placeholder="Enter Password..."
+            />
+          </el-form-item>
+          <el-form-item label="确认密码" prop="password2">
+            <el-input
+              v-model="registerUser.password2"
+              type="password"
+              placeholder="Enter Password..."
+            />
+          </el-form-item>
+
+          <el-form-item label="选择身份">
+            <el-select v-model="registerUser.role" placeholder="请选择身份">
+              <el-option label="管理员" value="admin"></el-option>
+              <el-option label="用户" value="user"></el-option>
+              <el-option label="游客" value="visitor"></el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item>
+            <el-button
+              @click="handleRegister('registerForm')"
+              type="primary"
+              class="submit-btn"
+            >
+              注册
+            </el-button>
+          </el-form-item>
+        </el-form>
       </div>
     </div>
     <!--  左右切换动画  -->
@@ -46,7 +99,19 @@ export default {
   setup() {
     const signUpMode = ref<boolean>(false);
 
-    return { signUpMode, loginUser, rules };
+    const registerUser = ref({
+      name: "",
+      email: "",
+      password: "",
+      password2: "",
+      role: "",
+    });
+
+    const handleRegister = (formName: string) => {
+      console.log(formName);
+    };
+
+    return { signUpMode, loginUser, rules, registerUser, handleRegister };
   },
 };
 </script>
@@ -380,5 +445,34 @@ export default {
     bottom: 28%;
     left: 50%;
   }
+}
+
+/* 控制login & register显示 */
+form {
+  padding: 0 5rem;
+  transition: all 0.2s 0.7s;
+  overflow: hidden;
+}
+
+form.sign-in-form {
+  z-index: 2;
+}
+
+form.sign-up-form {
+  opacity: 0;
+  z-index: 1;
+}
+
+/* register */
+.register-form {
+  margin-top: 20px;
+  background-color: #fff;
+  padding: 20px 40px 20px 20px;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px #ccc;
+}
+
+.submit-btn {
+  width: 100%;
 }
 </style>
